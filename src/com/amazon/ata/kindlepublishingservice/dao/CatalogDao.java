@@ -42,6 +42,18 @@ public class CatalogDao {
         return book;
     }
 
+    /**
+     * Gets the latest version of the book and set the 'inactive' to true which will functionally delete
+     * the book from the catalog;
+     * Throws a BookNotFoundException if the latest version is not active or no version is found.
+     * @param bookId Id associated with the book
+     */
+    public void softDelete(String bookId) {
+        CatalogItemVersion book = getBookFromCatalog(bookId);
+        book.setInactive(true);
+        dynamoDbMapper.save(book);
+    }
+
     // Returns null if no version exists for the provided bookId
     private CatalogItemVersion getLatestVersionOfBook(String bookId) {
         CatalogItemVersion book = new CatalogItemVersion();
