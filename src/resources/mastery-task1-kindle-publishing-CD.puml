@@ -17,6 +17,8 @@ class RemoveBookFromCatalogActivity {
 
 class SubmitBookForPublishingActivity {
     -publishingStatusDao : PublishStatusDao
+    -catalogDao : CatalogDao
+    -manager : BookPublishRequestManager
     +execute(request : SubmitBookForPublishingRequest) : SubmitBookForPublishingResponse
 }
 
@@ -29,6 +31,7 @@ class CatalogDao {
     -dynamoDbMapper : DynamoDBMapper
     +getBookFromCatalog(bookId : String) : CatalogItemVersion
     -getLatestVersionOfBook(bookId : String) : CatalogItemVersion
+    +validateBookExists(bookId : String) : void
 }
 
 class PublishingStatusDao {
@@ -57,6 +60,12 @@ class PublishingStatusItem {
     -bookId : String
 }
 
+class BookPublishRequestManager {
+    -queue : Queue<BookPublishRequest>
+    +addBookPublishRequest(request : BookPublishRequest) : void
+    +getBookPublishRequestToProcess() : BookPublishRequest
+}
+
 class BookNotFoundException
 
 class PublishingStatusNotFoundException
@@ -64,6 +73,8 @@ class PublishingStatusNotFoundException
 GetBookActivity o-- CatalogDao
 GetBookActivity o-- RecommendationsServiceClient
 SubmitBookForPublishingActivity o-- PublishingStatusDao
+SubmitBookForPublishingActivity o-- CatalogDao
+SubmitBookForPublishingActivity o-- BookPublishRequestManager
 
 CatalogItemVersion o-- CatalogDao
 PublishingStatusItem o-- PublishingStatusDao
