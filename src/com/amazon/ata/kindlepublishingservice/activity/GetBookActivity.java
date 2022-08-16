@@ -9,8 +9,6 @@ import com.amazon.ata.kindlepublishingservice.converters.RecommendationsCoralCon
 import com.amazon.ata.kindlepublishingservice.dao.CatalogDao;
 import com.amazon.ata.kindlepublishingservice.dynamodb.models.CatalogItemVersion;
 import com.amazon.ata.recommendationsservice.types.BookRecommendation;
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
 
 import java.util.List;
 import javax.inject.Inject;

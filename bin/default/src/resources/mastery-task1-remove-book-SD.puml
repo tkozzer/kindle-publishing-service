@@ -1,0 +1,32 @@
+PARTICIPANTS: use this file for creating the remove book from catalog diagram in mastery task 01
+@startuml RemoveBookFromCatalog_SD
+
+skinparam SequenceMessageAlignment center
+actor Client as cl
+participant "LoadBalancer/ECS" as lbe
+participant RemoveBookFromCatalogActivity as rbca
+participant CatalogDao as cd
+participant RecommendationsServiceClient as rsc
+database DynamoDB as db
+
+
+    cl -> lbe : HTTP request
+    lbe -> rbca : execute(RemoveBookFromCatalogRequest)
+    rbca -> cd : removeBookFromCatalog(bookId)
+    cd -> db : set book as inactive
+
+alt book:id does not exist or book is not active
+    rbca <- cd : throw BookNotFoundException
+    lbe <- rbca : transform to KindlePublishingClientException
+    cl <- lbe : 400 Response
+    end
+
+    cd <- db : book set to inactive
+    rbca <- cd : if book set to inactive return true
+    lbe <- rbca : return RemoveBookFromCatalogResponse
+    cl <- lbe : 200 Response w/ data
+
+
+
+
+@enduml

@@ -3,15 +3,17 @@ PARTICIPANTS: use this file for creating the class diagram in mastery task 01
 
 class GetBookActivity {
     -catalogDao : CatalogDao
-    -recommendationServiceClient
+    -recommendationServiceClient : RecommendationsServiceClient
     +execute(request : GetBookRequest) : GetBookResponse
 }
 
 class GetPublishingStatusActivity {
+    -publishingStatusDao : PublishingStatusDao
     +execute(publishingStatusRequest : GetPublishingStatusRequest) : GetPublishingStatusResponse
 }
 
 class RemoveBookFromCatalogActivity {
+   -catalogDao : CatalogDao
    +execute(removeBookFromCatalogRequest : RemoveBookFromCatalogRequest) : RemoveBookFromCatalogResponse
 }
 
@@ -41,6 +43,7 @@ class PublishingStatusDao {
     publishingRecordStatus : PublishingRecordStatus, bookId : String) : PublishingStatusItem
     +setPublishingStatus(publishingRecordId : String,
     publishingRecordStatus : PublishingRecordStatus, bookId : String, message : String) : PublishingStatusItem
+    +getPublishStatusList(publishingRecordId : String) : List<PublishingStatusItem>
 }
 
 class CatalogItemVersion {
@@ -75,10 +78,12 @@ GetBookActivity o-- RecommendationsServiceClient
 SubmitBookForPublishingActivity o-- PublishingStatusDao
 SubmitBookForPublishingActivity o-- CatalogDao
 SubmitBookForPublishingActivity o-- BookPublishRequestManager
+GetPublishingStatusActivity o-- PublishingStatusDao
 
 CatalogItemVersion o-- CatalogDao
 PublishingStatusItem o-- PublishingStatusDao
 CatalogDao o-- BookNotFoundException
+PublishingStatusDao o-- PublishingStatusNotFoundException
 
 
 @enduml
