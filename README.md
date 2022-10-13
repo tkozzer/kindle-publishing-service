@@ -20,15 +20,17 @@ Carefully read the design document and refer back to it while working on the tas
 ### [Mastery Task 1: Killing me softly](tasks/MasteryTask01.md)
 
 My Contributions:   
-- [Class diagram](src/resources/mastery-task1-kindle-publishing-CD.puml)  
-- [Sequence diagram](src/resources/mastery-task1-remove-book-SD.puml)  
-- [Soft Delete](src/com/amazon/ata/kindlepublishingservice/dao/CatalogDao.java)  
+- [Class diagram](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-1/src/resources/mastery-task1-kindle-publishing-CD.puml)   - [Commit](https://github.com/tkozzer/kindle-publishing-service/commit/ebf2c5773f8884d96c348a0090f64dd3f8b51f90) 
+- [Sequence diagram](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-1/src/resources/mastery-task1-remove-book-SD.puml)
+  - [Commit](https://github.com/tkozzer/kindle-publishing-service/commit/2b6ec889b05ce1c922cbe60a20c6764520d7c4fc)
+- [Soft Delete](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-1/src/com/amazon/ata/kindlepublishingservice/dao/CatalogDao.java)
+  - [Commit](https://github.com/tkozzer/kindle-publishing-service/commit/6742e110dc13c4f14733654aaa4b9d699f1ffc21)
 
 ### [Mastery Task 2: Submit to the process](tasks/MasteryTask02.md)
 
 My Contributions:
-- [BookPublishingRequestManger](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishingRequestManager.java)  
-- [SubmitBookForPublishingActivity](src/com/amazon/ata/kindlepublishingservice/activity/SubmitBookForPublishingActivity.java) 
+- [BookPublishingRequestManger](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-2/src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishingRequestManager.java)  
+- [SubmitBookForPublishingActivity](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-2/src/com/amazon/ata/kindlepublishingservice/activity/SubmitBookForPublishingActivity.java) 
 
 ### [Mastery Task 3: Query, query on the wall, don’t load one, get them all!](tasks/MasteryTask03.md)
 
