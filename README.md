@@ -26,3 +26,5 @@ Carefully read the design document and refer back to it while working on the tas
 
 &nbsp;
 
+*note: This is a project adapted from Amazon Techincal Academy by Bloomtech.*
+
