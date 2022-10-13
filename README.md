@@ -20,7 +20,8 @@ Carefully read the design document and refer back to it while working on the tas
 ### [Mastery Task 1: Killing me softly](tasks/MasteryTask01.md)
 
 My Contributions:   
-- [Class diagram](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-1/src/resources/mastery-task1-kindle-publishing-CD.puml)   - [Commit](https://github.com/tkozzer/kindle-publishing-service/commit/ebf2c5773f8884d96c348a0090f64dd3f8b51f90) 
+- [Class diagram](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-1/src/resources/mastery-task1-kindle-publishing-CD.puml)   
+  - [Commit](https://github.com/tkozzer/kindle-publishing-service/commit/ebf2c5773f8884d96c348a0090f64dd3f8b51f90) 
 - [Sequence diagram](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-1/src/resources/mastery-task1-remove-book-SD.puml)
   - [Commit](https://github.com/tkozzer/kindle-publishing-service/commit/2b6ec889b05ce1c922cbe60a20c6764520d7c4fc)
 - [Soft Delete](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-1/src/com/amazon/ata/kindlepublishingservice/dao/CatalogDao.java)
