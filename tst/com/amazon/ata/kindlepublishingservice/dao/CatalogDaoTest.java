@@ -8,11 +8,13 @@ import com.amazon.ata.kindlepublishingservice.publishing.KindleFormattedBook;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
+import com.amazonaws.services.dynamodbv2.document.Item;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -38,7 +40,7 @@ public class CatalogDaoTest {
 
     @BeforeEach
     public void setup(){
-        initMocks(this);
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -125,5 +127,84 @@ public class CatalogDaoTest {
         CatalogItemVersion queriedItem = (CatalogItemVersion) requestCaptor.getValue().getHashKeyValues();
         assertEquals(bookId, queriedItem.getBookId(), "Expected query to look for provided bookId");
         assertEquals(1, requestCaptor.getValue().getLimit(), "Expected query to have a limit set");
+    }
+
+    @Test
+    public void softDelete_oneVersion_setsBookToInactive() {
+        // GIVEN
+        String bookId = "book.123";
+        CatalogItemVersion item = new CatalogItemVersion();
+        item.setInactive(false);
+        item.setBookId(bookId);
+        item.setVersion(1);
+        ArgumentCaptor<CatalogItemVersion> requestCaptor = ArgumentCaptor.forClass(CatalogItemVersion.class);
+
+        when(dynamoDbMapper.query(eq(CatalogItemVersion.class), any(DynamoDBQueryExpression.class))).thenReturn(list);
+        when(list.isEmpty()).thenReturn(false);
+        when(list.get(0)).thenReturn(item);
+
+        // WHEN
+        catalogDao.softDelete(bookId);
+
+        // THEN
+        verify(dynamoDbMapper).save(requestCaptor.capture());
+        CatalogItemVersion capturedItem = (CatalogItemVersion) requestCaptor.getValue();
+        assertEquals(bookId, capturedItem.getBookId(), "Expected query to look for provided bookId");
+        assertEquals(true, capturedItem.isInactive(), "Expected isInactive to be true");
+    }
+
+    @Test
+    public void softDelete_twoVersions_setsBookToInactive() {
+        // GIVEN
+        String bookId = "book.123";
+        CatalogItemVersion item = new CatalogItemVersion();
+        item.setInactive(false);
+        item.setBookId(bookId);
+        item.setVersion(2);
+        ArgumentCaptor<CatalogItemVersion> requestCaptor = ArgumentCaptor.forClass(CatalogItemVersion.class);
+
+        when(dynamoDbMapper.query(eq(CatalogItemVersion.class), any(DynamoDBQueryExpression.class))).thenReturn(list);
+        when(list.isEmpty()).thenReturn(false);
+        when(list.get(0)).thenReturn(item);
+
+        // WHEN
+        catalogDao.softDelete(bookId);
+
+        // THEN
+        verify(dynamoDbMapper).save(requestCaptor.capture());
+        CatalogItemVersion capturedItem = (CatalogItemVersion) requestCaptor.getValue();
+        assertEquals(bookId, capturedItem.getBookId(), "Expected query to look for provided bookId");
+        assertTrue(capturedItem.isInactive(), "Expected isInactive to be true");
+        assertEquals(2, capturedItem.getVersion());
+    }
+
+    @Test
+    public void softDelete_bookDoesNotExist_throwsException() {
+        // GIVEN
+        String invalidBookId = "notABookID";
+        when(dynamoDbMapper.query(eq(CatalogItemVersion.class), any(DynamoDBQueryExpression.class))).thenReturn(list);
+        when(list.isEmpty()).thenReturn(true);
+
+        // WHEN && THEN
+        assertThrows(BookNotFoundException.class, () -> catalogDao.softDelete(invalidBookId),
+                "Expected BookNotFoundException to be thrown for an invalid bookId.");
+    }
+
+    @Test
+    public void softDelete_bookInactive_throwsException() {
+        // GIVEN
+        String bookId = "book.123";
+        CatalogItemVersion item = new CatalogItemVersion();
+        item.setInactive(true);
+        item.setBookId(bookId);
+        item.setVersion(1);
+
+        when(dynamoDbMapper.query(eq(CatalogItemVersion.class), any(DynamoDBQueryExpression.class))).thenReturn(list);
+        when(list.isEmpty()).thenReturn(false);
+        when(list.get(0)).thenReturn(item);
+
+        // WHEN && THEN
+        assertThrows(BookNotFoundException.class, () -> catalogDao.softDelete(bookId),
+                "Expected BookNotFoundException to be thrown for an invalid bookId.");
     }
 }

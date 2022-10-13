@@ -2,12 +2,11 @@ package com.amazon.ata.kindlepublishingservice.dao;
 
 import com.amazon.ata.kindlepublishingservice.dynamodb.models.CatalogItemVersion;
 import com.amazon.ata.kindlepublishingservice.exceptions.BookNotFoundException;
+
 import com.amazon.ata.kindlepublishingservice.publishing.KindleFormattedBook;
 import com.amazon.ata.kindlepublishingservice.utils.KindlePublishingUtils;
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 import javax.inject.Inject;
@@ -42,6 +41,18 @@ public class CatalogDao {
         return book;
     }
 
+    /**
+     * Gets the latest version of the book and set the 'inactive' to true which will functionally delete
+     * the book from the catalog;
+     * Throws a BookNotFoundException if the latest version is not active or no version is found.
+     * @param bookId Id associated with the book
+     */
+    public void softDelete(String bookId) {
+        CatalogItemVersion book = getBookFromCatalog(bookId);
+        book.setInactive(true);
+        dynamoDbMapper.save(book);
+    }
+
     // Returns null if no version exists for the provided bookId
     private CatalogItemVersion getLatestVersionOfBook(String bookId) {
         CatalogItemVersion book = new CatalogItemVersion();
@@ -57,5 +68,41 @@ public class CatalogDao {
             return null;
         }
         return results.get(0);
+    }
+
+    public void addOrUpdateBook(CatalogItemVersion book) {
+        dynamoDbMapper.save(book);
+    }
+
+    public CatalogItemVersion validateBookExists(String bookId) {
+        CatalogItemVersion book = getLatestVersionOfBook(bookId);
+
+        if (book == null) {
+            throw new BookNotFoundException(String.format("No book found for id: %s", bookId));
+        }
+        return book;
+    }
+
+    public CatalogItemVersion createOrUpdateBook(KindleFormattedBook book) {
+        String bookId = book.getBookId();
+        CatalogItemVersion newBook = new CatalogItemVersion();
+        newBook.setInactive(false);
+        newBook.setAuthor(book.getAuthor());
+        newBook.setGenre(book.getGenre());
+        newBook.setText(book.getText());
+        newBook.setTitle(book.getTitle());
+        if (bookId == null) {
+            newBook.setVersion(1);
+            newBook.setBookId(KindlePublishingUtils.generateBookId());
+            addOrUpdateBook(newBook);
+        } else {
+            CatalogItemVersion existingBookItem = validateBookExists(bookId);
+            newBook.setBookId(bookId);
+            newBook.setVersion(existingBookItem.getVersion() + 1);
+            existingBookItem.setInactive(true);
+            addOrUpdateBook(existingBookItem);
+            addOrUpdateBook(newBook);
+        }
+        return newBook;
     }
 }
