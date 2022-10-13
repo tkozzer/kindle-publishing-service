@@ -30,7 +30,9 @@ My Contributions:
 
 My Contributions:
 - [BookPublishingRequestManger](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-2/src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishingRequestManager.java)  
-- [SubmitBookForPublishingActivity](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-2/src/com/amazon/ata/kindlepublishingservice/activity/SubmitBookForPublishingActivity.java) 
+- [SubmitBookForPublishingActivity](https://github.com/tkozzer/kindle-publishing-service/tree/sprint-2/src/com/amazon/ata/kindlepublishingservice/activity/SubmitBookForPublishingActivity.java)  
+
+[See Commit](https://github.com/tkozzer/kindle-publishing-service/commit/7463eb04651e424b57ed611e80c8e5a5255a204f)   
 
 ### [Mastery Task 3: Query, query on the wall, don’t load one, get them all!](tasks/MasteryTask03.md)
 
@@ -38,12 +40,16 @@ My Contributions:
 - [DynamoDB Query](src/com/amazon/ata/kindlepublishingservice/dao/PublishingStatusDao.java)
 - [GetPublishingStatus](src/com/amazon/ata/kindlepublishingservice/activity/GetPublishingStatusActivity.java) 
 
+[See Commit](https://github.com/tkozzer/kindle-publishing-service/commit/88e226f107139260867090eaff2beb2b421a74c7)
+
 ### [Mastery Task 4: Make a run(nable) for it](tasks/MasteryTask04.md)
 
 My Contributions:
 - [BookPublishTask (Runnable)](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishTask.java)
 - [BookPublishingRequestManager(Updated for Thread Safety)](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishingRequestManager.java)
-- [BookPublishRequest(Updated for Thread Safety)](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishRequest.java)
+- [BookPublishRequest(Updated for Thread Safety)](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishRequest.java) 
+
+[See Commit](https://github.com/tkozzer/kindle-publishing-service/commit/468f0eb3992eba52261efc54619edbcb275a3281)
 
 &nbsp;
 
