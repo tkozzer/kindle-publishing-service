@@ -21,13 +21,13 @@ Carefully read the design document and refer back to it while working on the tas
 
 My Contributions:   
 - [Class diagram](src/resources/mastery-task1-kindle-publishing-CD.puml)  
-- [Sequence diagram](src/resources/mastery-task1-kindle-publishing-SD.puml)  
+- [Sequence diagram](src/resources/mastery-task1-remove-book-SD.puml)  
 - [Soft Delete](src/com/amazon/ata/kindlepublishingservice/dao/CatalogDao.java)  
 
 ### [Mastery Task 2: Submit to the process](tasks/MasteryTask02.md)
 
 My Contributions:
-- [BookPublishRequestManger](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishingRequestManager.java)  
+- [BookPublishingRequestManger](src/com/amazon/ata/kindlepublishingservice/publishing/BookPublishingRequestManager.java)  
 - [SubmitBookForPublishingActivity](src/com/amazon/ata/kindlepublishingservice/activity/SubmitBookForPublishingActivity.java) 
 
 ### [Mastery Task 3: Query, query on the wall, don’t load one, get them all!](tasks/MasteryTask03.md)
