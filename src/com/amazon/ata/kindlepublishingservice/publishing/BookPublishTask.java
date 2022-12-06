@@ -27,7 +27,7 @@ public class BookPublishTask implements Runnable {
         if (request == null) return;
 
         publishingStatusDao.setPublishingStatus(request.getPublishingRecordId(),
-                        PublishingRecordStatus.IN_PROGRESS, request.getBookId());
+                PublishingRecordStatus.IN_PROGRESS, request.getBookId());
 
         KindleFormattedBook book = KindleFormatConverter.format(request);
         try {
@@ -36,10 +36,10 @@ public class BookPublishTask implements Runnable {
                     bookItem.getBookId());
         } catch (BookNotFoundException e) {
             publishingStatusDao.setPublishingStatus(request.getPublishingRecordId(),
-                    PublishingRecordStatus.FAILED, "Book does not exist in database.");
+                    PublishingRecordStatus.FAILED, request.getBookId(),"Book does not exist in database.");
         } catch (Exception e) {
             publishingStatusDao.setPublishingStatus(request.getPublishingRecordId(), PublishingRecordStatus.FAILED,
-                    request.getBookId());
+                    request.getBookId(), e.getMessage());
         }
 
     }

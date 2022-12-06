@@ -6,7 +6,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class BookPublishingRequestManager {
 
-    private Queue<BookPublishRequest> queue;
+    private final Queue<BookPublishRequest> queue;
 
     public BookPublishingRequestManager() {
         queue = new ConcurrentLinkedQueue<>();

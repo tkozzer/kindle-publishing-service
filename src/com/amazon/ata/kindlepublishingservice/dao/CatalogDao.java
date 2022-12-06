@@ -85,6 +85,11 @@ public class CatalogDao {
 
     public CatalogItemVersion createOrUpdateBook(KindleFormattedBook book) {
         String bookId = book.getBookId();
+        CatalogItemVersion existingBookItem = null;
+        // If book doesn't exist this will throw a BookNotFoundException immediately
+        if (bookId != null) {
+            existingBookItem = validateBookExists(bookId);
+        }
         CatalogItemVersion newBook = new CatalogItemVersion();
         newBook.setInactive(false);
         newBook.setAuthor(book.getAuthor());
@@ -96,11 +101,9 @@ public class CatalogDao {
             newBook.setBookId(KindlePublishingUtils.generateBookId());
             addOrUpdateBook(newBook);
         } else {
-            CatalogItemVersion existingBookItem = validateBookExists(bookId);
             newBook.setBookId(bookId);
             newBook.setVersion(existingBookItem.getVersion() + 1);
-            existingBookItem.setInactive(true);
-            addOrUpdateBook(existingBookItem);
+            softDelete(existingBookItem.getBookId());
             addOrUpdateBook(newBook);
         }
         return newBook;
